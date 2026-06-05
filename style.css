@@ -1,0 +1,234 @@
+/* Grunddesign & Schriftart */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+/* Screen-Management */
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    padding: 20px;
+    text-align: center;
+}
+
+.screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.9);
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+/* Startbildschirm Content */
+#welcome-screen h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #fb6f92;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Eleganter Button */
+#start-btn {
+    background-color: #ffb703;
+    background: linear-gradient(45deg, #ff4d6d, #ff758f);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+#start-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(255, 77, 109, 0.6);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Hauptinhalt Container */
+.gift-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* ANIMIERTE BLUME (ROSE) */
+.flower {
+    position: relative;
+    width: 100px;
+    height: 250px;
+    animation: floatFlower 4s ease-in-out infinite;
+}
+
+.petal {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: linear-gradient(#ff4d6d, #c9184a);
+}
+
+.petal:nth-child(1) { width: 50px; height: 50px; top: 0; z-index: 4; }
+.petal:nth-child(2) { width: 70px; height: 65px; top: -10px; opacity: 0.9; z-index: 3; filter: brightness(0.95); }
+.petal:nth-child(3) { width: 85px; height: 80px; top: -20px; opacity: 0.8; z-index: 2; filter: brightness(0.9); }
+.petal:nth-child(4) { width: 95px; height: 90px; top: -25px; opacity: 0.7; z-index: 1; filter: brightness(0.85); }
+
+.stem {
+    position: absolute;
+    width: 6px;
+    height: 180px;
+    background-color: #2d6a4f;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 3px;
+}
+
+.leaf {
+    position: absolute;
+    width: 30px;
+    height: 15px;
+    background-color: #40916c;
+    border-radius: 15px 0;
+}
+.leaf:nth-child(1) { left: 5px; top: 40px; transform: rotate(15deg); }
+.leaf:nth-child(2) { right: 5px; top: 80px; transform: scaleX(-1) rotate(15deg); }
+
+@keyframes floatFlower {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+/* Liebestext */
+.love-message {
+    animation: fadeInText 2s ease-out forwards;
+}
+
+.i-love-you {
+    font-family: 'Dancing Script', cursive;
+    font-size: 4rem;
+    color: #c9184a;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sub-text {
+    font-size: 1.1rem;
+    color: #590d22;
+    max-width: 400px;
+    line-height: 1.6;
+}
+
+@keyframes fadeInText {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* FLIEGENDE HERZEN (DYNAMISCH) */
+#heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    /* Nutzt die Variablen aus dem JavaScript für perfekte Proportionen */
+    width: var(--size, 20px);
+    height: var(--size, 20px);
+    background-color: var(--heart-color, #ff4d6d);
+    transform: rotate(-45deg);
+    opacity: 0;
+    animation: floatUp 4s linear forwards;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+}
+
+.heart::before, .heart::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--heart-color, #ff4d6d);
+    border-radius: 50%;
+}
+
+/* Die runden Ohren werden jetzt exakt proportional zum Hauptquadrat verschoben */
+.heart::before { 
+    top: -50%; 
+    left: 0; 
+}
+
+.heart::after { 
+    left: 50%; 
+    top: 0; 
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(-45deg) scale(0);
+        opacity: 0;
+    }
+    10% { 
+        opacity: 0.9; 
+    }
+    90% { 
+        opacity: 0.9; 
+    }
+    100% {
+        /* Sanfte Drehung nach oben weg */
+        transform: translateY(-110vh) rotate(15deg) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Optimierung für Handys (Responsive Design) */
+@media (max-width: 600px) {
+    #welcome-screen h1 { font-size: 1.8rem; }
+    .i-love-you { font-size: 2.8rem; }
+    .sub-text { font-size: 0.95rem; padding: 0 10px; }
+    .flower { height: 200px; transform: scale(0.85); }
+    @keyframes floatFlower {
+        0%, 100% { transform: translateY(0) scale(0.85); }
+        50% { transform: translateY(-10px) scale(0.85); }
+    }
+}
